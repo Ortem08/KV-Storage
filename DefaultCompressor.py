@@ -1,7 +1,7 @@
 from Infrastructure.IValueCompressor import IValueCompressor
 
 
-class NAMECompressor(IValueCompressor):
+class DefaultCompressor(IValueCompressor):
     def __init__(self):
         ...
 

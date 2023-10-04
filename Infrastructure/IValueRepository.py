@@ -1,12 +1,12 @@
 from abc import abstractmethod, ABC
-from Pointer import Pointer
+from Cursor import Cursor
 
 
 class IValueRepository(ABC):
     @abstractmethod
-    def add(self, value: bytes) -> Pointer:
+    def add(self, value: bytes) -> Cursor:
         ...
 
     @abstractmethod
-    def get(self, pointer: Pointer) -> bytes:
+    def get(self, pointer: Cursor) -> bytes:
         ...
