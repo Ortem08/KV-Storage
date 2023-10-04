@@ -1,4 +1,4 @@
-from Infrastructure.IValueCompressor import IValueCompressor
+from Compressors.IValueCompressor import IValueCompressor
 
 
 class DefaultCompressor(IValueCompressor):

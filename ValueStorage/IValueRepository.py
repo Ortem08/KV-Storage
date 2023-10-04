@@ -1,5 +1,5 @@
 from abc import abstractmethod, ABC
-from Cursor import Cursor
+from Infrastructure.CursorDir.Cursor import Cursor
 
 
 class IValueRepository(ABC):
