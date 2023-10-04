@@ -5,8 +5,8 @@ import datetime
 
 
 class ValueRepository(IValueRepository):
-    def __init__(self):
-        self.filename = 'storage' + str(datetime.datetime.now().microsecond) + '.svl'
+    def __init__(self, filename: str):
+        self.filename = filename
         self.pointer = Pointer()
         self.compressor = NAMECompressor()
 
