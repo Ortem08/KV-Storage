@@ -11,7 +11,7 @@ class IndexRepository(IIndexRepository):
 
         self._file_path = path.join([self._path, self._indexes_filename])
 
-    def add(self, key: str, cursor: ICursor):
+    def add(self, key: str, cursor: ICursor) -> None:
         ind_to_add = Index(key, cursor, Cursor(), Cursor())
         with open(self._file_path, "a") as f:
             cursor_to_new_index = IndexRepository.write_index(f, ind_to_add)
@@ -44,13 +44,42 @@ class IndexRepository(IIndexRepository):
                         break
         pass
 
-    def get(self, key) -> ICursor:
-        ind_to_find = Index(key, Cursor(), Cursor(), Cursor())
+    def set(self, key: str, cursor: ICursor) -> None:
+        key_hash = Index.get_hash(key)
         with open(self._file_path, 'r') as f:
             current_index_str = f.readline()
             current_index = Index.from_json(current_index_str)
             while True:
-                if current_index.hash > ind_to_find.hash:
+                if current_index.hash > key_hash:
+                    left_ind = current_index.left
+                    if left_ind.is_null():
+                        break
+                    else:
+                        _, current_index = IndexRepository.get_index(f, left_ind)
+                        continue
+                else:
+                    if current_index.key == key:
+                        IndexRepository.set_index(
+                            f,
+                            Index(key, cursor, current_index.left, current_index.right),
+                            len(current_index_str))
+                        pass
+
+                    right_ind = current_index.right
+                    if right_ind.is_null():
+                        break
+                    else:
+                        _, current_index = IndexRepository.get_index(f, right_ind)
+                        continue
+        return None
+
+    def get(self, key) -> ICursor:
+        key_hash = Index.get_hash(key)
+        with open(self._file_path, 'r') as f:
+            current_index_str = f.readline()
+            current_index = Index.from_json(current_index_str)
+            while True:
+                if current_index.hash > key_hash:
                     left_ind = current_index.left
                     if left_ind.is_null():
                         break
