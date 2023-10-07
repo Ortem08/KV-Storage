@@ -14,7 +14,7 @@ class IndexRepository(IIndexRepository):
     def add(self, key: str, cursor: ICursor):
         ind_to_add = Index(key, cursor, Cursor(), Cursor())
         with open(self._file_path, "a") as f:
-            cursor_to_new_index = IndexRepository.append_index(f, ind_to_add)
+            cursor_to_new_index = IndexRepository.write_index(f, ind_to_add)
 
         with open(self._file_path, 'r+') as f:
             current_index_str = f.readline()
@@ -32,7 +32,7 @@ class IndexRepository(IIndexRepository):
                         break
                 else:
                     if current_index.key == key:
-                        raise Exception
+                        raise KeyError
 
                     right_ind = current_index.right
                     if not right_ind.is_null():
@@ -70,7 +70,7 @@ class IndexRepository(IIndexRepository):
         return None
 
     @staticmethod
-    def get_index(f, cursor: Cursor):
+    def get_index(f, cursor: Cursor) -> (int, Index):
         f.seek(cursor.index)
         current_index_str = f.read(cursor.len)
         current_index_str_len = len(current_index_str)
@@ -84,7 +84,7 @@ class IndexRepository(IIndexRepository):
         pass
 
     @staticmethod
-    def append_index(f, ind_to_add: Index):
+    def write_index(f, ind_to_add: Index) -> Cursor:
         ind_json = ind_to_add.to_json()
         f.write(ind_json)
 
