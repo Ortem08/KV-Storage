@@ -14,9 +14,7 @@ class Index:
         self.left = left
         self.right = right
 
-        hash_evaluator = hashlib.sha256()
-        hash_evaluator.update(self.key.encode())
-        self.hash = hash_evaluator.hexdigest()
+        self.hash = Index.get_hash(key)
 
     def to_json(self) -> str:
         return json.dumps({'key': self.key.ljust(Index.key_size, ' '),
@@ -32,3 +30,10 @@ class Index:
             CursorParser.parse(values['cursor']),
             CursorParser.parse(values['left']),
             CursorParser.parse(values['right']))
+
+    @staticmethod
+    def get_hash(key: str) -> str:
+        hash_evaluator = hashlib.sha256()
+        hash_evaluator.update(key.encode())
+        return hash_evaluator.hexdigest()
+

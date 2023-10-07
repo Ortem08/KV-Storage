@@ -4,7 +4,11 @@ from Infrastructure.CursorDir import ICursor
 
 class IIndexRepository(ABC):
     @abstractmethod
-    def add(self, key: str, cursor: ICursor) -> bool:
+    def add(self, key: str, cursor: ICursor) -> None:
+        ...
+
+    @abstractmethod
+    def set(self, key: str, cursor: ICursor) -> None:
         ...
 
     @abstractmethod
