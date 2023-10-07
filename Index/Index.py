@@ -25,7 +25,7 @@ class Index:
                            'right': self.right.to_json()})
 
     @staticmethod
-    def from_json(str_in_json: str):
+    def from_json(str_in_json: str) -> 'Index':
         values = json.loads(str_in_json)
         return Index(
             values['key'].strip(),
