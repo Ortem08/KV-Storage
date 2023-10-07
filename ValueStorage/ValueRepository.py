@@ -1,7 +1,6 @@
-from Infrastructure.IValueRepository import IValueRepository
-from DefaultCompressor import DefaultCompressor
-from Cursor import Cursor
-import datetime
+from ValueStorage.IValueRepository import IValueRepository
+from Compressors.DefaultCompressor import DefaultCompressor
+from Infrastructure.CursorDir.Cursor import Cursor
 
 
 class ValueRepository(IValueRepository):
