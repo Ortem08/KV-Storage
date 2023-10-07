@@ -1,3 +1,4 @@
+import zlib
 from Compressors.IValueCompressor import IValueCompressor
 
 
@@ -6,7 +7,7 @@ class DefaultCompressor(IValueCompressor):
         ...
 
     def compress(self, byte_array) -> bytes:
-        return byte_array
+        return zlib.compress(byte_array, level=9)
 
     def decompress(self, byte_array) -> bytes:
-        return byte_array
+        return zlib.decompress(byte_array)
