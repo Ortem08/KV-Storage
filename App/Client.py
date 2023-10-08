@@ -18,28 +18,28 @@ class Client(IClient):
 
         pass
 
-    def add(self, key: str, value: str, storage_name: str) -> None:
+    def add(self, storage_name: str, key: str, value: str) -> None:
         params = {
-            'key': f'{key}',
-            'storage_name': f'{storage_name}'
+            'storage_name': f'{storage_name}',
+            'key': f'{key}'
         }
         response = requests.post(f'{Client.URL}/add', params=params, data=value)
 
         pass
 
-    def set(self, key: str, value: str, storage_name: str) -> None:
+    def set(self, storage_name: str, key: str, value: str) -> None:
         params = {
-            'key': f'{key}',
-            'storage_name': f'{storage_name}'
+            'storage_name': f'{storage_name}',
+            'key': f'{key}'
         }
         response = requests.post(f'{Client.URL}/set', params=params, data=value)
 
         pass
 
-    def get(self, key: str, storage_name: str) -> str:
+    def get(self, storage_name: str, key: str) -> str:
         params = {
-            'key': f'{key}',
-            'storage_name': f'{storage_name}'
+            'storage_name': f'{storage_name}',
+            'key': f'{key}'
         }
         response = requests.get(f'{Client.URL}/get', params=params)
 

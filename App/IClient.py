@@ -7,13 +7,13 @@ class IClient(ABC):
         ...
 
     @abstractmethod
-    def add(self, key: str, value: str, storage_name: str) -> None:
+    def add(self, storage_name: str, key: str, value: str) -> None:
         ...
 
     @abstractmethod
-    def set(self, key: str, value: str, storage_name: str) -> None:
+    def set(self, storage_name: str, key: str, value: str) -> None:
         ...
 
     @abstractmethod
-    def get(self, key: str, storage_name: str) -> str:
+    def get(self, storage_name: str, key: str) -> str:
         ...
