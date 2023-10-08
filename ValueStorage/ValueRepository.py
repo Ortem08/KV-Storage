@@ -25,15 +25,12 @@ class ValueRepository(IValueRepository):
         return cursor
 
     def set(self, value, old_cursor) -> Cursor:
-        with open(self._unused_cursor_path, 'w') as u:
+        with open(self._unused_cursor_path, 'a') as u:
             u.write(old_cursor.to_json() + '\n')
 
         return self.add(value)
 
     def get(self, cursor) -> bytes:
-        if cursor.len < 0 or cursor.index < 0:
-            raise ValueError
-
         with open(self._file_path, "rb") as f:
             f.seek(cursor.index)
             compressed_value = f.read(cursor.len)
