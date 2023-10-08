@@ -1,2 +1,2 @@
 @echo off
-python App/ConsoleApp.py set %*
+python3 App/ConsoleApp.py set %*

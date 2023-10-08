@@ -1,6 +1,6 @@
 import fire
 
-from Client import Client
+from App.Client import Client
 
 
 client = Client()

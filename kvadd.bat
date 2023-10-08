@@ -1,2 +1,2 @@
 @echo off
-python App/ConsoleApp.py add %*
+python3 App/ConsoleApp.py add %*
