@@ -4,7 +4,6 @@ from Index.CachedIndexRepository import CachedIndexRepository
 from Index.IndexRepository import IndexRepository
 from KVStorage.IKVStorageProvider import IKVStorageProvider
 from KVStorage.KVStorage import KVStorage
-from KVStorageResponse import KVStorageResponse
 from ValueStorage.CachedValueRepository import CachedValueRepository
 from ValueStorage.ValueRepository import ValueRepository
 
@@ -15,7 +14,7 @@ class KVStorageProvider(IKVStorageProvider):
         self._storages_list_name = storages_list_name
 
         self._storages = {}
-        with open(os.path.join(self._storages_path, self._storages_list_name), 'w+') as f:
+        with open(os.path.join(self._storages_path, self._storages_list_name), 'r') as f:
             for storage_name in f.readlines():
                 ind_rep = CachedIndexRepository(IndexRepository(os.path.join(self._storages_path, storage_name)))
                 val_rep = CachedValueRepository(ValueRepository(os.path.join(self._storages_path, storage_name)))
@@ -33,8 +32,11 @@ class KVStorageProvider(IKVStorageProvider):
         if self._storages.__contains__(storage_name):
             raise ValueError(f'Storage [{storage_name}] already exists')
 
-        ind_rep = CachedIndexRepository(IndexRepository(os.path.join(self._storages_path, storage_name)))
-        val_rep = CachedValueRepository(ValueRepository(os.path.join(self._storages_path, storage_name)))
+        storage_path = os.path.join(self._storages_path, storage_name)
+        os.mkdir(storage_path)
+
+        ind_rep = CachedIndexRepository(IndexRepository(storage_path))
+        val_rep = CachedValueRepository(ValueRepository(storage_path))
 
         storage = KVStorage.new_storage(ind_rep, val_rep)
 

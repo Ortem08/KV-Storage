@@ -14,3 +14,7 @@ class KVStorageResponse:
         values = json.loads(json_str)
 
         return KVStorageResponse(values["key"], values["value"], values["error"])
+
+    @staticmethod
+    def from_dict(values: {}):
+        return KVStorageResponse(values["key"], values["value"], values["error"])

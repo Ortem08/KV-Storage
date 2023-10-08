@@ -1,3 +1,5 @@
+import os
+
 from ValueStorage.IValueRepository import IValueRepository
 from Compressors.DefaultCompressor import DefaultCompressor
 from Infrastructure.CursorDir.Cursor import Cursor
@@ -8,9 +10,8 @@ class ValueRepository(IValueRepository):
         self._path = path
         self._filename = filename
         self._unused_cursor_name = 'unused.crs'
-        self._file_path = path.join([self._path, self._filename])
-        self._unused_cursor_path = path.join([self._path,
-                                              self._unused_cursor_name])
+        self._file_path = os.path.join(self._path, self._filename)
+        self._unused_cursor_path = os.path.join(self._path, self._unused_cursor_name)
 
         self.compressor = DefaultCompressor()
 
