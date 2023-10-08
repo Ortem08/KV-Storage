@@ -1,7 +1,5 @@
-import os.path
-
-from KVStorage.IKVStorage import IKVStorage
 from Index.IIndexRepository import IIndexRepository
+from KVStorage.IKVStorage import IKVStorage
 from ValueStorage.IValueRepository import IValueRepository
 
 

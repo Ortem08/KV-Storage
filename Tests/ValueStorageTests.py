@@ -1,5 +1,7 @@
 import os
+
 import pytest
+
 from ValueStorage.ValueRepository import ValueRepository
 
 value_storage = ValueRepository('', 'test_storage.svl')

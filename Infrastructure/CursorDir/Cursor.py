@@ -1,4 +1,5 @@
 import json
+
 from Infrastructure.CursorDir.ICursor import ICursor
 
 

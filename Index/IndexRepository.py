@@ -1,9 +1,9 @@
 import os
 
-from Infrastructure.CursorDir.Cursor import Cursor
-from Index.Index import Index
 from Index.IIndexRepository import IIndexRepository
+from Index.Index import Index
 from Infrastructure.CursorDir import ICursor
+from Infrastructure.CursorDir.Cursor import Cursor
 
 
 class IndexRepository(IIndexRepository):

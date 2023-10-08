@@ -1,4 +1,3 @@
-import pytest
 from Compressors.DefaultCompressor import DefaultCompressor
 
 compressor = DefaultCompressor()

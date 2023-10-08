@@ -1,5 +1,5 @@
-from KVStorage.IKVStorageProvider import IKVStorageProvider
 from App.KVStorageHost.KVStorageResponse import KVStorageResponse
+from KVStorage.IKVStorageProvider import IKVStorageProvider
 
 
 class KVStorageService:

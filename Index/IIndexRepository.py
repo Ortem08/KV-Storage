@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABC
+
 from Infrastructure.CursorDir import ICursor
 
 

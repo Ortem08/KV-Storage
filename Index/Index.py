@@ -1,5 +1,5 @@
-import json
 import hashlib
+import json
 
 from Infrastructure.CursorDir.CursorParser import CursorParser
 from Infrastructure.CursorDir.ICursor import ICursor

@@ -1,7 +1,7 @@
 from flask import Flask
 
-from Infrastructure.IHost import IHost
 from App.KVStorageHost.KVStorageController import KVStorageController
+from Infrastructure.IHost import IHost
 from KVStorage.KVStorageProvider import KVStorageProvider
 from KVStorage.KVStorageService import KVStorageService
 

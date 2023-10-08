@@ -1,8 +1,8 @@
 import os
 
-from ValueStorage.IValueRepository import IValueRepository
 from Compressors.DefaultCompressor import DefaultCompressor
 from Infrastructure.CursorDir.Cursor import Cursor
+from ValueStorage.IValueRepository import IValueRepository
 
 
 class ValueRepository(IValueRepository):
