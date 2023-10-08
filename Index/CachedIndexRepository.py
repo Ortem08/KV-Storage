@@ -4,25 +4,28 @@ from Infrastructure.CursorDir import ICursor
 
 class CachedIndexRepository(IIndexRepository):
     def __init__(self, index_repository: IIndexRepository):
-        self.repository = index_repository
-        self.cache = {}
+        self._repository = index_repository
+        self._cache = {}
+
+    def init(self) -> None:
+        self._repository.init()
 
     def add(self, key: str, cursor: ICursor) -> None:
-        self.repository.add(key, cursor)
+        self._repository.add(key, cursor)
 
-        self.cache[key] = cursor
+        self._cache[key] = cursor
         pass
 
     def set(self, key: str, cursor: ICursor) -> None:
-        if not self.cache.__contains__(key) or not self.cache[key] == cursor:
-            self.repository.set(key, cursor)
-            self.cache[key] = cursor
+        if not self._cache.__contains__(key) or not self._cache[key] == cursor:
+            self._repository.set(key, cursor)
+            self._cache[key] = cursor
         pass
 
     def get(self, key) -> ICursor:
-        if self.cache.__contains__(key):
-            return self.cache[key]
+        if self._cache.__contains__(key):
+            return self._cache[key]
 
-        cursor = self.repository.get(key)
-        self.cache[key] = cursor
+        cursor = self._repository.get(key)
+        self._cache[key] = cursor
         return cursor
