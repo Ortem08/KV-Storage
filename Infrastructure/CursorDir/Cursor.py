@@ -7,6 +7,10 @@ class Cursor(ICursor):
     len_size = 16
 
     def __init__(self, index=0, len=0):
+        if (len < 0 or index < 0 or index > 10**Cursor.index_size
+                or len > 10**Cursor.len_size):
+            raise ValueError
+
         self._type = 'single'
 
         self.index = index

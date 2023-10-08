@@ -7,6 +7,9 @@ class IValueRepository(ABC):
     def add(self, value: bytes) -> Cursor:
         ...
 
+    def set(self, value: bytes, cursor: Cursor) -> Cursor:
+        ...
+
     @abstractmethod
     def get(self, pointer: Cursor) -> bytes:
         ...
