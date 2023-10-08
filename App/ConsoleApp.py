@@ -1,7 +1,6 @@
 import fire
 
-from App.Client import Client
-
+from Client import Client
 
 client = Client()
 
@@ -22,7 +21,7 @@ def set(storage_name: str, key: str, value: str):
 
 
 def get(storage_name: str, key: str):
-    client.get(storage_name, key)
+    return client.get(storage_name, key)
     pass
 
 
