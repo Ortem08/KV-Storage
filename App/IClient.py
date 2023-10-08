@@ -7,7 +7,7 @@ class IClient(ABC):
         ...
 
     @abstractmethod
-    def add(self, value: str, storage_name: str) -> None:
+    def add(self, key: str, value: str, storage_name: str) -> None:
         ...
 
     @abstractmethod

@@ -14,15 +14,16 @@ class Client(IClient):
             'path': f'{path}',
             'storage_name': f'{storage_name}'
         }
-        response = requests.post(Client.URL, params=params)
+        response = requests.post(f'{Client.URL}/new', params=params)
 
         pass
 
-    def add(self, value: str, storage_name: str) -> None:
+    def add(self, key: str, value: str, storage_name: str) -> None:
         params = {
+            'key': f'{key}',
             'storage_name': f'{storage_name}'
         }
-        response = requests.post(Client.URL, params=params, data=value)
+        response = requests.post(f'{Client.URL}/add', params=params, data=value)
 
         pass
 
@@ -31,7 +32,7 @@ class Client(IClient):
             'key': f'{key}',
             'storage_name': f'{storage_name}'
         }
-        response = requests.post(Client.URL, params=params, data=value)
+        response = requests.post(f'{Client.URL}/set', params=params, data=value)
 
         pass
 
@@ -40,6 +41,6 @@ class Client(IClient):
             'key': f'{key}',
             'storage_name': f'{storage_name}'
         }
-        response = requests.get(Client.URL, params=params)
+        response = requests.get(f'{Client.URL}/get', params=params)
 
         return response.json()
