@@ -1,3 +1,5 @@
+import os
+
 from Infrastructure.CursorDir.Cursor import Cursor
 from Index.Index import Index
 from Index.IIndexRepository import IIndexRepository
@@ -5,11 +7,25 @@ from Infrastructure.CursorDir import ICursor
 
 
 class IndexRepository(IIndexRepository):
-    def __init__(self, path: str):
+    def __init__(self, path: str, indexes_filename: str = "indexes"):
         self._path = path
-        self._indexes_filename = "indexes"
+        self._indexes_filename = indexes_filename
 
-        self._file_path = path.join([self._path, self._indexes_filename])
+        self._file_path = os.path.join(self._path, self._indexes_filename)
+
+    def init(self) -> None:
+        if os.path.exists(self._file_path):
+            raise Exception('IndexRepository is already initiated')
+
+        with open(self._file_path, 'w') as f:
+            f.writelines(
+                Index(
+                    'root_index',
+                    Cursor(0, 0),
+                    Cursor(0, 0),
+                    Cursor(0, 0))
+                .to_json())
+            f.write('\n')
 
     def add(self, key: str, cursor: ICursor) -> None:
         ind_to_add = Index(key, cursor, Cursor(), Cursor())
@@ -46,30 +62,31 @@ class IndexRepository(IIndexRepository):
 
     def set(self, key: str, cursor: ICursor) -> None:
         key_hash = Index.get_hash(key)
-        with open(self._file_path, 'r') as f:
-            current_index_str = f.readline()
-            current_index = Index.from_json(current_index_str)
+        with open(self._file_path, 'r+') as f:
+            root_index_str = f.readline()
+            current_index_str_len = len(root_index_str) + 1
+            current_index = Index.from_json(root_index_str)
             while True:
                 if current_index.hash > key_hash:
                     left_ind = current_index.left
                     if left_ind.is_null():
                         break
                     else:
-                        _, current_index = IndexRepository.get_index(f, left_ind)
+                        current_index_str_len, current_index = IndexRepository.get_index(f, left_ind)
                         continue
                 else:
                     if current_index.key == key:
                         IndexRepository.set_index(
                             f,
                             Index(key, cursor, current_index.left, current_index.right),
-                            len(current_index_str))
+                            current_index_str_len)
                         pass
 
                     right_ind = current_index.right
                     if right_ind.is_null():
                         break
                     else:
-                        _, current_index = IndexRepository.get_index(f, right_ind)
+                        current_index_str_len, current_index = IndexRepository.get_index(f, right_ind)
                         continue
         return None
 
@@ -102,9 +119,8 @@ class IndexRepository(IIndexRepository):
     def get_index(f, cursor: Cursor) -> (int, Index):
         f.seek(cursor.index)
         current_index_str = f.read(cursor.len)
-        current_index_str_len = len(current_index_str)
         current_index = Index.from_json(current_index_str)
-        return current_index_str_len, current_index
+        return cursor.len, current_index
 
     @staticmethod
     def set_index(f, current_index, current_index_str_len):

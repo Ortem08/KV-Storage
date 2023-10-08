@@ -1,6 +1,5 @@
 import os
 import pytest
-from Infrastructure.CursorDir.Cursor import Cursor
 from ValueStorage.ValueRepository import ValueRepository
 
 value_storage = ValueRepository('', 'test_storage.svl')
