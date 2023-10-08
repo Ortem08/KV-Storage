@@ -1,2 +1,2 @@
 @echo off
-python3 App/ConsoleApp.py new %*
+"App/ConsoleApp.py" new %*

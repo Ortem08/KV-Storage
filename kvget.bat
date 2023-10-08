@@ -1,2 +1,2 @@
 @echo off
-python3 App/ConsoleApp.py get %*
+"App/ConsoleApp.py" get %*
