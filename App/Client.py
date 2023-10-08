@@ -1,6 +1,6 @@
 import requests
 
-from IClient import IClient
+from App.IClient import IClient
 
 
 class Client(IClient):
