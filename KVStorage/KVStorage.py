@@ -33,4 +33,4 @@ class KVStorage(IKVStorage):
     def get(self, key: str) -> str:
         cursor = self._index_repository.get(key)
 
-        return self._value_repository.get(cursor).decode()
+        return self._value_repository.get(cursor).decode('UTF-8')

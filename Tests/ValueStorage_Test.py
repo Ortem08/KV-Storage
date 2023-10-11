@@ -40,24 +40,6 @@ def test_get_returns_same_what_added(str_value):
     assert actual_value == value
     os.remove(value_storage._file_path)
 
-# перенести в CursorTests
-# @pytest.mark.parametrize(
-#     "cur_ind, cur_len",
-#     [
-#         # (0, 30), хз как узнать длину файла
-#         # (5, 29),
-#         (-1, 29),
-#         (0, -1)
-#     ])
-# def test_raises_if_bad_cursor(cur_ind, cur_len):
-#     value = "Hi, my name is Sandre Ayzykin".encode()
-#     value_storage.add(value)
-#
-#     with pytest.raises(ValueError):
-#         value_storage.get(Cursor(cur_ind, cur_len))
-#
-#     os.remove(value_storage._file_path)
-
 
 def test_get_by_cursor():
     value1 = "Hi, my name is Sandre Ayzykin".encode()
