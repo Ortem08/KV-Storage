@@ -2,6 +2,7 @@ import os
 
 from Compressors.DefaultCompressor import DefaultCompressor
 from Infrastructure.CursorDir.Cursor import Cursor
+from Infrastructure.CursorDir.ICursor import ICursor
 from ValueStorage.IValueRepository import IValueRepository
 
 
@@ -15,7 +16,7 @@ class ValueRepository(IValueRepository):
 
         self.compressor = DefaultCompressor()
 
-    def add(self, value) -> Cursor:
+    def add(self, value) -> ICursor:
         with open(self._file_path, "ab") as f:
             compressed_value = self.compressor.compress(value)
             f.write(compressed_value)
@@ -25,9 +26,8 @@ class ValueRepository(IValueRepository):
 
         return cursor
 
-    def set(self, value, old_cursor) -> Cursor:
-        with open(self._unused_cursor_path, 'a') as u:
-            u.write(old_cursor.to_json() + '\n')
+    def set(self, value, old_cursor) -> ICursor:
+        self.mark_removed(old_cursor)
 
         return self.add(value)
 
@@ -36,3 +36,10 @@ class ValueRepository(IValueRepository):
             f.seek(cursor.index)
             compressed_value = f.read(cursor.len)
             return self.compressor.decompress(compressed_value)
+
+    def mark_removed(self, old_cursor: ICursor):
+        with open(self._unused_cursor_path, 'a') as u:
+            u.write(old_cursor.to_json() + '\n')
+
+    def get_file_paths(self) -> []:
+        return [self._file_path]

@@ -6,8 +6,6 @@ from Infrastructure.CursorDir.ICursor import ICursor
 
 
 class Index:
-    key_size = 16
-
     def __init__(self, key: str, cursor: ICursor, left: ICursor, right: ICursor):
         self.key = key
         self.cursor = cursor
@@ -17,7 +15,7 @@ class Index:
         self.hash = Index.get_hash(key)
 
     def to_json(self) -> str:
-        return json.dumps({'key': self.key.ljust(Index.key_size, ' '),
+        return json.dumps({'key': self.key,
                            'cursor': self.cursor.to_json(),
                            'left': self.left.to_json(),
                            'right': self.right.to_json()})

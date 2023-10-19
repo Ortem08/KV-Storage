@@ -8,5 +8,5 @@ class CursorParser:
     @staticmethod
     def parse(str_in_json: str) -> ICursor:
         values = json.loads(str_in_json)
-        if values['type'] == 'single':
+        if values['type'] == 'Single':
             return Cursor(int(values['index']), int(values['len']))

@@ -4,15 +4,10 @@ from Infrastructure.CursorDir.ICursor import ICursor
 
 
 class Cursor(ICursor):
-    index_size = 32
-    len_size = 16
-
     def __init__(self, index=0, len=0):
-        if (len < 0 or index < 0 or index > 10**Cursor.index_size
-                or len > 10**Cursor.len_size):
+        super().__init__('Single')
+        if len < 0 or index < 0:
             raise ValueError
-
-        self._type = 'single'
 
         self.index = index
         self.len = len
@@ -21,9 +16,9 @@ class Cursor(ICursor):
         return json.dumps(
             {
                 'type': self._type,
-                'index': str(self.index).rjust(Cursor.index_size, '0'),
-                'len': str(self.len).rjust(Cursor.index_size, '0')
+                'index': str(self.index),
+                'len': str(self.len)
             })
 
     def is_null(self) -> bool:
-        return self.index == 0 and self.len == 0
+        return self.len == 0
