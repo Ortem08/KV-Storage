@@ -1,4 +1,5 @@
 from App.KVStorageHost.KVStorageResponse import KVStorageResponse
+from App.TokenExpiredError import TokenExpiredError
 from KVStorage.IKVStorageProvider import IKVStorageProvider
 
 
@@ -12,6 +13,8 @@ class KVStorageService:
             return KVStorageResponse(None, None, None)
         except ValueError as ex:
             return KVStorageResponse(None, None, str(ex))
+        except TokenExpiredError as ex:
+            return KVStorageResponse(None, None, f'Expired, exception: [{str(ex)}]')
         except Exception as ex:
             return KVStorageResponse(None, None, str(ex))
 
@@ -23,6 +26,8 @@ class KVStorageService:
             return KVStorageResponse(key, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
         except KeyError:
             return KVStorageResponse(key, None, f'Unknown key [{key}] for [{storage_name}] storage')
+        except TokenExpiredError as ex:
+            return KVStorageResponse(key, None, f'Expired, exception: [{str(ex)}]')
         except Exception as ex:
             return KVStorageResponse(key, None, f'Unknown error [{str(ex)}]')
 
@@ -33,6 +38,8 @@ class KVStorageService:
             return KVStorageResponse(key, None, None)
         except ValueError as ex:
             return KVStorageResponse(key, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
+        except TokenExpiredError as ex:
+            return KVStorageResponse(key, None, f'Expired, exception: [{str(ex)}]')
         except Exception as ex:
             return KVStorageResponse(key, None, f'Unknown error [{str(ex)}]')
 
@@ -43,5 +50,7 @@ class KVStorageService:
             return KVStorageResponse(key, None, None)
         except ValueError as ex:
             return KVStorageResponse(key, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
+        except TokenExpiredError as ex:
+            return KVStorageResponse(key, None, f'Expired, exception: [{str(ex)}]')
         except Exception as ex:
             return KVStorageResponse(key, None, f'Unknown error [{str(ex)}]')

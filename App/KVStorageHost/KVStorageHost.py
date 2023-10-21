@@ -1,6 +1,7 @@
 from flask import Flask
 
 from App.KVStorageHost.KVStorageController import KVStorageController
+from App.TokenValidatorService import TokenValidatorService
 from Infrastructure.IHost import IHost
 from KVStorage.KVStorageProvider import KVStorageProvider
 from KVStorage.KVStorageService import KVStorageService
@@ -14,9 +15,11 @@ class KVStorageHost(IHost):
         self._port = port
 
         self._app = Flask(__name__)
+        self._users = {'abc': 'abc'}
 
         self._controllers = [
-            KVStorageController(self._app, KVStorageService(KVStorageProvider()))
+            KVStorageController(self._app, KVStorageService(KVStorageProvider()),
+                                TokenValidatorService(self._users))
         ]
 
     def run(self):

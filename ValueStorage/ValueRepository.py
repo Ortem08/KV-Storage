@@ -6,7 +6,7 @@ from ValueStorage.IValueRepository import IValueRepository
 
 
 class ValueRepository(IValueRepository):
-    def __init__(self, path: str, filename='storage.svl'):
+    def __init__(self, path: str, filename='storage'):
         self._path = path
         self._filename = filename
         self._unused_cursor_name = 'unused.crs'
