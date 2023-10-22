@@ -1,6 +1,8 @@
+import datetime
 import os
 import queue
 
+from InMemoryLog import InMemoryLog
 from Index.IIndexRepository import IIndexRepository
 from Index.Index import Index
 from Infrastructure.CursorDir import ICursor
@@ -29,8 +31,8 @@ class IndexRepository(IIndexRepository):
                 .to_json().ljust(self._max_index_size_in_bytes))
             f.write('\n')
 
-    def add(self, key: str, cursor: ICursor) -> None:
-        ind_to_add = Index(key, cursor, Cursor(), Cursor())
+    def add(self, key: str, cursor: ICursor, ttl: int = -1) -> None:
+        ind_to_add = Index(key, cursor, Cursor(), Cursor(), ttl)
         with open(self._file_path, "a") as f:
             cursor_to_new_index = self.write_index(f, ind_to_add)
 
@@ -78,6 +80,9 @@ class IndexRepository(IIndexRepository):
                         continue
                 else:
                     if current_index.key == key:
+                        if current_index.expires_at < datetime.datetime.now():
+                            InMemoryLog.info(f'Key [{key}] expired at [{current_index.expires_at}]')
+                            return
                         self.set_index(
                             f,
                             Index(key, cursor, current_index.left, current_index.right),
@@ -107,6 +112,9 @@ class IndexRepository(IIndexRepository):
                         continue
                 else:
                     if current_index.key == key:
+                        if current_index.expires_at < datetime.datetime.now():
+                            InMemoryLog.info(f'Key [{key}] expired at [{current_index.expires_at}]')
+                            return None
                         return current_index.cursor
 
                     right_ind = current_index.right

@@ -9,7 +9,7 @@ class IIndexRepository(ABC):
         ...
 
     @abstractmethod
-    def add(self, key: str, cursor: ICursor) -> None:
+    def add(self, key: str, cursor: ICursor, ttl: int = -1) -> None:
         ...
 
     @abstractmethod

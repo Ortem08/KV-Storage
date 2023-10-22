@@ -13,7 +13,7 @@ class IKVStorage(ABC):
         ...
 
     @abstractmethod
-    def add(self, key: str, value: str) -> None:
+    def add(self, key: str, value: str, ttl: int = -1) -> None:
         ...
 
     @abstractmethod

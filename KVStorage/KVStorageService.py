@@ -32,10 +32,10 @@ class KVStorageService:
         except Exception as ex:
             return KVStorageResponse(key, None, f'Unknown error [{str(ex)}]')
 
-    def add(self, storage_name: str, key: str, value: str) -> KVStorageResponse:
+    def add(self, storage_name: str, key: str, value: str, ttl: int = -1) -> KVStorageResponse:
         try:
             storage = self._storage_provider.get(storage_name)
-            storage.add(key, value)
+            storage.add(key, value, ttl)
             return KVStorageResponse(key, None, None)
         except ValueError as ex:
             return KVStorageResponse(key, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')

@@ -46,6 +46,24 @@ class KVStorageController:
                 kv_response._error = InMemoryLog.read_new()
             return kv_response.to_json()
 
+        @self._app.post("/add_with_ttl")
+        def add():
+            args = request.args
+
+            token = Token(args.get("token"))
+            if not TokenValidatorService.validate_token(token):
+                return KVStorageResponse(None, None, str(TokenExpiredError())).to_json()
+
+            kv_response = self._kv_storage_service.add(
+                args.get("storage_name"),
+                args.get("key"),
+                request.data.decode(),
+                int(args.get("ttl")))
+            kv_response._token = token.token
+            if kv_response._error is None:
+                kv_response._error = InMemoryLog.read_new()
+            return kv_response.to_json()
+
         @self._app.post("/set")
         def set():
             args = request.args
