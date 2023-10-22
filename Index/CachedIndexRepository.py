@@ -13,7 +13,8 @@ class CachedIndexRepository(IIndexRepository):
     def add(self, key: str, cursor: ICursor, ttl: int = -1) -> None:
         self._repository.add(key, cursor, ttl)
 
-        self._cache[key] = cursor
+        if ttl == -1:
+            self._cache[key] = cursor
         pass
 
     def set(self, key: str, cursor: ICursor) -> None:
@@ -27,7 +28,8 @@ class CachedIndexRepository(IIndexRepository):
             return self._cache[key]
 
         cursor = self._repository.get(key)
-        self._cache[key] = cursor
+        if cursor is not None:
+            self._cache[key] = cursor
         return cursor
 
     def get_all_keys(self) -> []:
