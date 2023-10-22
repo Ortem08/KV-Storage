@@ -13,12 +13,12 @@ class MemoryLimitedValueRepository(IValueRepository):
         self._current_memory_consumption = 0
         for file_path in self._value_repository.get_file_paths():
             if os.path.exists(file_path):
-                self._current_memory_consumption += os.path.getsize(file_path) / 2**32
+                self._current_memory_consumption += os.path.getsize(file_path) / 2 ** 32
 
         self._in_memory_storage = []
 
     def add(self, value: bytes) -> ICursor:
-        if len(value) / 2**32 + self._current_memory_consumption > self._memory_limit_in_mb:
+        if len(value) / 2 ** 32 + self._current_memory_consumption > self._memory_limit_in_mb:
             self._in_memory_storage.append(value)
             return InMemoryCursor(len(self._in_memory_storage) - 1)
 

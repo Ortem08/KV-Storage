@@ -27,8 +27,8 @@ class KVStorage(IKVStorage):
         if cursor.type == 'InMemory':
             self._in_memory_context[key] = cursor
             InMemoryLog.info(f"Storage memory {self._value_repository._memory_limit_in_mb} overflowed. "
-                                         f"Value with key {key} was added to memory. "
-                                         f"It will be lost with shutdown.")
+                             f"Value with key {key} was added to memory. "
+                             f"It will be lost with shutdown.")
             return
         self._index_repository.add(key, cursor)
 

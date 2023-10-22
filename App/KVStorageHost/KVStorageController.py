@@ -71,7 +71,7 @@ class KVStorageController:
 
             kv_response = self._kv_storage_service.get(
                 args.get("storage_name"),
-                args.get("key"),)
+                args.get("key"), )
             kv_response._token = token.token
             return kv_response.to_json()
 

@@ -19,7 +19,7 @@ class IValueRepository(ABC):
     @abstractmethod
     def mark_removed(self, old_cursor: ICursor):
         ...
-    
+
     @abstractmethod
     def get_file_paths(self) -> []:
         ...

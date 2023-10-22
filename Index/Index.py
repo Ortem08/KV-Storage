@@ -34,4 +34,3 @@ class Index:
         hash_evaluator = hashlib.sha256()
         hash_evaluator.update(key.encode())
         return hash_evaluator.hexdigest()
-

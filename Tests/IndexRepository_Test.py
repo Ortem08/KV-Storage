@@ -83,7 +83,3 @@ def test_get_all_keys():
     os.remove(os.path.join(test_folder, file_name))
 
     assert len(t) == 0
-
-
-
-

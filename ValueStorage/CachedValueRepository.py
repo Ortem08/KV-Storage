@@ -3,7 +3,7 @@ from ValueStorage.IValueRepository import IValueRepository
 
 
 class CachedValueRepository(IValueRepository):
-    bytes_in_mb = 2**32
+    bytes_in_mb = 2 ** 32
 
     def __init__(self, value_repository: IValueRepository, cache_value_limit_in_mb: int = 1):
         self._value_repository = value_repository

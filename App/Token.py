@@ -7,9 +7,10 @@ import jwt
 
 class Token:
     SECRET_KEY = 'VERYSECRET'
+
     def __init__(self, current_token):
         self.token = current_token
-        #self.expiration_date = expiration_date
+        # self.expiration_date = expiration_date
 
     @staticmethod
     def create_token(login: str, password: str) -> 'Token':
