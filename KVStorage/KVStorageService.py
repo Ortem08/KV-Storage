@@ -64,3 +64,18 @@ class KVStorageService:
             return KVStorageResponse(None, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
         except Exception as ex:
             return KVStorageResponse(None, None, f'Unknown error [{str(ex)}]')
+
+    def get_by_key_prefix(self, storage_name, key_prefix):
+        try:
+            storage = self._storage_provider.get(storage_name)
+            values = []
+            for key in storage.get_all_keys():
+                if key.startwith(key_prefix):
+                    values.append(f'{key}: {storage.get(key)}')
+
+            return KVStorageResponse(key_prefix, '\n'.join(values), None)
+        except ValueError as ex:
+            return KVStorageResponse(None, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
+        except Exception as ex:
+            return KVStorageResponse(None, None, f'Unknown error [{str(ex)}]')
+
