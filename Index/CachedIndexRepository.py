@@ -10,8 +10,8 @@ class CachedIndexRepository(IIndexRepository):
     def init(self) -> None:
         self._repository.init()
 
-    def add(self, key: str, cursor: ICursor) -> None:
-        self._repository.add(key, cursor)
+    def add(self, key: str, cursor: ICursor, ttl: int = -1) -> None:
+        self._repository.add(key, cursor, ttl)
 
         self._cache[key] = cursor
         pass
