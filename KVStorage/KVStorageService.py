@@ -7,9 +7,9 @@ class KVStorageService:
     def __init__(self, kv_storage_provider: IKVStorageProvider):
         self._storage_provider = kv_storage_provider
 
-    def new(self, storage_name: str):
+    def new(self, storage_name: str, storage_type: str, mem_limit: int = 0):
         try:
-            self._storage_provider.add(storage_name)
+            self._storage_provider.add(storage_name, storage_type, mem_limit)
             return KVStorageResponse(None, None, None)
         except ValueError as ex:
             return KVStorageResponse(None, None, str(ex))
@@ -23,6 +23,7 @@ class KVStorageService:
             storage = self._storage_provider.get(storage_name)
             return KVStorageResponse(key, storage.get(key), None)
         except ValueError as ex:
+            print(ex)
             return KVStorageResponse(key, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
         except KeyError:
             return KVStorageResponse(key, None, f'Unknown key [{key}] for [{storage_name}] storage')

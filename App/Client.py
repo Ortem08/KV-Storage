@@ -1,9 +1,7 @@
-import json
-
 import requests
 
-from Token import Token
 from IClient import IClient
+from Token import Token
 
 
 class Client(IClient):
@@ -18,12 +16,15 @@ class Client(IClient):
         except FileNotFoundError:
             self.login(input('Логин: '), input('Пароль: '))
 
-    def new(self, path: str, storage_name: str) -> None:
+    def new(self, path: str, storage_name: str, storage_type: str, mem_limit: int = 0) -> None:
         params = {
             'path': f'{path}',
             'storage_name': f'{storage_name}',
-            'token': f'{self.TOKEN.token}'
+            'token': f'{self.TOKEN.token}',
+            'storage_type': f'{storage_type}',
+            'mem_limit': f'{mem_limit}'
         }
+
         response = requests.post(f'{Client.URL}/new', params=params)
 
         return response.json()

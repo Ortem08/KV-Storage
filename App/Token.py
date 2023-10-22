@@ -1,8 +1,8 @@
+import datetime
 import json
 from json import JSONEncoder
 
 import jwt
-import datetime
 
 
 class Token:

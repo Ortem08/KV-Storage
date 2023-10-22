@@ -1,7 +1,5 @@
 import os
 
-import pytest
-
 from ValueStorage.MemoryLimitedValueRepository import MemoryLimitedValueRepository
 from ValueStorage.ValueRepository import ValueRepository
 

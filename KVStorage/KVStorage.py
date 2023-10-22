@@ -1,3 +1,4 @@
+from InMemoryLog import InMemoryLog
 from Index.IIndexRepository import IIndexRepository
 from KVStorage.IKVStorage import IKVStorage
 from ValueStorage.IValueRepository import IValueRepository
@@ -25,7 +26,10 @@ class KVStorage(IKVStorage):
 
         if cursor.type == 'InMemory':
             self._in_memory_context[key] = cursor
-
+            InMemoryLog.info(f"Storage memory {self._value_repository._memory_limit_in_mb} overflowed. "
+                                         f"Value with key {key} was added to memory. "
+                                         f"It will be lost with shutdown.")
+            return
         self._index_repository.add(key, cursor)
 
     def set(self, key: str, value: str) -> None:
@@ -43,5 +47,8 @@ class KVStorage(IKVStorage):
             cursor = self._in_memory_context[key]
         else:
             cursor = self._index_repository.get(key)
+
+        if cursor is None:
+            raise Exception(f'Key not found [{key}]')
 
         return self._value_repository.get(cursor).decode('UTF-8')

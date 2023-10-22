@@ -7,5 +7,5 @@ class IKVStorageProvider(ABC):
         ...
 
     @abstractmethod
-    def add(self, storage_name: str):
+    def add(self, storage_name: str, storage_type: str, mem_limit: int = 0):
         ...

@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class IClient(ABC):
     @abstractmethod
-    def new(self, path: str, storage_name: str) -> None:
+    def new(self, path: str, storage_name: str, storage_type: str, mem_limit: int = 0) -> None:
         ...
 
     @abstractmethod

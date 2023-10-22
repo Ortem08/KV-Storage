@@ -3,8 +3,9 @@ from flask import request
 from App.KVStorageHost.KVStorageResponse import KVStorageResponse
 from App.Token import Token
 from App.TokenExpiredError import TokenExpiredError
-from KVStorage.KVStorageService import KVStorageService
 from App.TokenValidatorService import TokenValidatorService
+from InMemoryLog import InMemoryLog
+from KVStorage.KVStorageService import KVStorageService
 
 
 class KVStorageController:
@@ -24,7 +25,7 @@ class KVStorageController:
                 return KVStorageResponse(None, None, str(TokenExpiredError())).to_json()
 
             kv_response = (self._kv_storage_service
-                           .new(args.get("storage_name")))
+                           .new(args.get("storage_name"), args.get('storage_type'), int(args.get('mem_limit'))))
             kv_response._token = token.token
             return kv_response.to_json()
 
@@ -41,6 +42,8 @@ class KVStorageController:
                 args.get("key"),
                 request.data.decode())
             kv_response._token = token.token
+            if kv_response._error is None:
+                kv_response._error = InMemoryLog.read_new()
             return kv_response.to_json()
 
         @self._app.post("/set")

@@ -15,7 +15,7 @@ class Cursor(ICursor):
     def to_json(self) -> str:
         return json.dumps(
             {
-                'type': self._type,
+                'type': self.type,
                 'index': str(self.index),
                 'len': str(self.len)
             })
