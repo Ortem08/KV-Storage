@@ -1,6 +1,8 @@
 import os.path
+import time
 import uuid
 
+from InMemoryLog import InMemoryLog
 from Index.IndexRepository import IndexRepository
 from Infrastructure.CursorDir.Cursor import Cursor
 
@@ -83,3 +85,25 @@ def test_get_all_keys():
     os.remove(os.path.join(test_folder, file_name))
 
     assert len(t) == 0
+
+
+def test_ttl():
+    file_name = generate_test_file_name()
+    rep = IndexRepository(test_folder, file_name)
+    rep.init()
+
+    rep.add("key1", Cursor(1, 1), 1)
+    rep.add("key2", Cursor(2, 2), 100)
+    rep.add("key3", Cursor(3, 3), 2)
+    rep.add("key4", Cursor(4, 4), 100)
+
+    time.sleep(5)
+
+    assert rep.get("key1") is None
+    assert len(InMemoryLog.read_new()) != 0
+    assert_cursors(rep.get("key2"), Cursor(2, 2))
+    assert rep.get("key3") is None
+    assert len(InMemoryLog.read_new()) != 0
+    assert_cursors(rep.get("key4"), Cursor(4, 4))
+
+    os.remove(os.path.join(test_folder, file_name))

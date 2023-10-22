@@ -80,7 +80,7 @@ class IndexRepository(IIndexRepository):
                         continue
                 else:
                     if current_index.key == key:
-                        if current_index.expires_at < datetime.datetime.now():
+                        if current_index.expires_at is not None and current_index.expires_at < datetime.datetime.now():
                             InMemoryLog.info(f'Key [{key}] expired at [{current_index.expires_at}]')
                             return
                         self.set_index(
@@ -112,7 +112,7 @@ class IndexRepository(IIndexRepository):
                         continue
                 else:
                     if current_index.key == key:
-                        if current_index.expires_at < datetime.datetime.now():
+                        if current_index.expires_at is not None and current_index.expires_at < datetime.datetime.now():
                             InMemoryLog.info(f'Key [{key}] expired at [{current_index.expires_at}]')
                             return None
                         return current_index.cursor
