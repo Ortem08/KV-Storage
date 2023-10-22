@@ -23,3 +23,7 @@ class IKVStorage(ABC):
     @abstractmethod
     def get(self, key: str) -> str:
         ...
+
+    @abstractmethod
+    def get_all_keys(self) -> []:
+        ...

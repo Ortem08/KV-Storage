@@ -66,5 +66,24 @@ def test_get():
     assert_cursors(rep.get('key4'), Cursor(4, 4))
 
 
+def test_get_all_keys():
+    file_name = generate_test_file_name()
+    rep = IndexRepository(test_folder, file_name)
+    rep.init()
+
+    rep.add("key1", Cursor(1, 1))
+    rep.add("key2", Cursor(2, 2))
+    rep.add("key3", Cursor(3, 3))
+    rep.add("key4", Cursor(4, 4))
+
+    t = {'key1', 'key2', 'key3', 'key4'}
+    for key in rep.get_all_keys():
+        t.remove(key)
+
+    os.remove(os.path.join(test_folder, file_name))
+
+    assert len(t) == 0
+
+
 
 

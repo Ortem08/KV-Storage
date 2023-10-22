@@ -19,3 +19,7 @@ class IIndexRepository(ABC):
     @abstractmethod
     def get(self, key) -> ICursor:
         ...
+
+    @abstractmethod
+    def get_all_keys(self) -> []:
+        ...

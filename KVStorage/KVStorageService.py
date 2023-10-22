@@ -55,3 +55,12 @@ class KVStorageService:
             return KVStorageResponse(key, None, f'Expired, exception: [{str(ex)}]')
         except Exception as ex:
             return KVStorageResponse(key, None, f'Unknown error [{str(ex)}]')
+
+    def get_all_keys(self, storage_name):
+        try:
+            storage = self._storage_provider.get(storage_name)
+            return KVStorageResponse(storage.get_all_keys(), None, None)
+        except ValueError as ex:
+            return KVStorageResponse(None, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
+        except Exception as ex:
+            return KVStorageResponse(None, None, f'Unknown error [{str(ex)}]')

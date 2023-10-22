@@ -75,6 +75,19 @@ class KVStorageController:
             kv_response._token = token.token
             return kv_response.to_json()
 
+        @self._app.get("/get_all_keys")
+        def get():
+            args = request.args
+
+            token = Token(args.get("token"))
+            if not TokenValidatorService.validate_token(token):
+                return KVStorageResponse(None, None, str(TokenExpiredError())).to_json()
+
+            kv_response = self._kv_storage_service.get_all_keys(
+                args.get("storage_name"))
+            kv_response._token = token.token
+            return kv_response.to_json()
+
         @self._app.post("/login")
         def login():
             args = request.args

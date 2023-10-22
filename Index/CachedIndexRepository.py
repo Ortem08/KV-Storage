@@ -29,3 +29,7 @@ class CachedIndexRepository(IIndexRepository):
         cursor = self._repository.get(key)
         self._cache[key] = cursor
         return cursor
+
+    def get_all_keys(self) -> []:
+        for key in self._repository.get_all_keys():
+            yield key

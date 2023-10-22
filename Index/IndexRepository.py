@@ -1,4 +1,5 @@
 import os
+import queue
 
 from Index.IIndexRepository import IIndexRepository
 from Index.Index import Index
@@ -114,6 +115,26 @@ class IndexRepository(IIndexRepository):
                     else:
                         _, current_index = IndexRepository.get_index(f, right_ind)
                         continue
+        return None
+
+    def get_all_keys(self) -> []:
+        with open(self._file_path, 'r') as f:
+            current_index_str = f.readline()
+            current_index = Index.from_json(current_index_str)
+            to_open = queue.Queue()
+            if not current_index.left.is_null():
+                to_open.put(current_index.left)
+            if not current_index.right.is_null():
+                to_open.put(current_index.right)
+
+            while to_open.qsize() > 0:
+                _, current_index = IndexRepository.get_index(f, to_open.get())
+                yield current_index.key
+
+                if not current_index.left.is_null():
+                    to_open.put(current_index.left)
+                if not current_index.right.is_null():
+                    to_open.put(current_index.right)
         return None
 
     @staticmethod

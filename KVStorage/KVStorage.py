@@ -52,3 +52,7 @@ class KVStorage(IKVStorage):
             raise Exception(f'Key not found [{key}]')
 
         return self._value_repository.get(cursor).decode('UTF-8')
+
+    def get_all_keys(self) -> []:
+        keys = [key for key in self._index_repository.get_all_keys()]
+        return keys
