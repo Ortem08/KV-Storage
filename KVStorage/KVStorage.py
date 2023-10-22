@@ -68,3 +68,12 @@ class KVStorage(IKVStorage):
     def get_all_keys(self) -> []:
         keys = [key for key in self._index_repository.get_all_keys()]
         return keys
+
+    def remove(self, key: str) -> None:
+        if key in self._in_memory_context.keys():
+            cursor = self._in_memory_context[key]
+            self._value_repository.mark_removed(cursor)
+            self._in_memory_context.pop(key)
+        else:
+            cursor = self._index_repository.remove(key)
+            self._value_repository.mark_removed(cursor)

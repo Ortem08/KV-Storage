@@ -120,6 +120,20 @@ class KVStorageController:
             kv_response._token = token.token
             return kv_response.to_json()
 
+        @self._app.post("/remove")
+        def remove():
+            args = request.args
+
+            token = Token(args.get("token"))
+            if not TokenValidatorService.validate_token(token):
+                return KVStorageResponse(None, None, str(TokenExpiredError())).to_json()
+
+            kv_response = self._kv_storage_service.remove(
+                args.get("storage_name"),
+                args.get("key"))
+            kv_response._token = token.token
+            return kv_response.to_json()
+
         @self._app.post("/login")
         def login():
             args = request.args

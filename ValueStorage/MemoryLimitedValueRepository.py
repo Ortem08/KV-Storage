@@ -43,7 +43,10 @@ class MemoryLimitedValueRepository(IValueRepository):
         return self._value_repository.get(pointer)
 
     def mark_removed(self, old_cursor: ICursor):
-        raise NotImplementedError
+        if old_cursor.type == 'InMemory':
+            self._in_memory_storage.remove(self._in_memory_storage[old_cursor.index])
+            return
+        self._value_repository.mark_removed(old_cursor)
 
     def get_file_paths(self) -> []:
         return self._value_repository.get_file_paths()

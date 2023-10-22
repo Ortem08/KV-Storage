@@ -35,3 +35,7 @@ class CachedIndexRepository(IIndexRepository):
     def get_all_keys(self) -> []:
         for key in self._repository.get_all_keys():
             yield key
+
+    def remove(self, key: str) -> ICursor:
+        self._cache.pop(key)
+        return self._repository.remove(key)

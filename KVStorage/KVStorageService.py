@@ -62,6 +62,8 @@ class KVStorageService:
             return KVStorageResponse(storage.get_all_keys(), None, None)
         except ValueError as ex:
             return KVStorageResponse(None, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
+        except TokenExpiredError as ex:
+            return KVStorageResponse(None, None, f'Expired, exception: [{str(ex)}]')
         except Exception as ex:
             return KVStorageResponse(None, None, f'Unknown error [{str(ex)}]')
 
@@ -76,6 +78,19 @@ class KVStorageService:
             return KVStorageResponse(key_prefix, '\n'.join(values), None)
         except ValueError as ex:
             return KVStorageResponse(None, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
+        except TokenExpiredError as ex:
+            return KVStorageResponse(None, None, f'Expired, exception: [{str(ex)}]')
         except Exception as ex:
             return KVStorageResponse(None, None, f'Unknown error [{str(ex)}]')
 
+    def remove(self, storage_name: str, key: str) -> KVStorageResponse:
+        try:
+            storage = self._storage_provider.get(storage_name)
+            storage.remove(key)
+            return KVStorageResponse(key, None, None)
+        except ValueError as ex:
+            return KVStorageResponse(key, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
+        except TokenExpiredError as ex:
+            return KVStorageResponse(key, None, f'Expired, exception: [{str(ex)}]')
+        except Exception as ex:
+            return KVStorageResponse(key, None, f'Unknown error [{str(ex)}]')

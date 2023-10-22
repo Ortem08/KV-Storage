@@ -107,3 +107,24 @@ def test_ttl():
     assert_cursors(rep.get("key4"), Cursor(4, 4))
 
     os.remove(os.path.join(test_folder, file_name))
+
+
+def test_remove():
+    file_name = generate_test_file_name()
+    rep = IndexRepository(test_folder, file_name)
+    rep.init()
+
+    rep.add("key1", Cursor(1, 1))
+    rep.add("key2", Cursor(2, 2))
+    rep.add("key3", Cursor(3, 3))
+    rep.add("key4", Cursor(4, 4))
+
+    rep.remove("key2")
+
+    assert rep.get("key2") is None
+
+    assert_cursors(rep.get('key1'), Cursor(1, 1))
+    assert_cursors(rep.get('key3'), Cursor(3, 3))
+    assert_cursors(rep.get('key4'), Cursor(4, 4))
+
+    os.remove(os.path.join(test_folder, file_name))

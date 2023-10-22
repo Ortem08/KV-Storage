@@ -23,3 +23,7 @@ class IIndexRepository(ABC):
     @abstractmethod
     def get_all_keys(self) -> []:
         ...
+
+    @abstractmethod
+    def remove(self, key: str) -> ICursor:
+        ...
