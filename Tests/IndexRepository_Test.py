@@ -6,7 +6,7 @@ from InMemoryLog import InMemoryLog
 from Index.IndexRepository import IndexRepository
 from Infrastructure.CursorDir.Cursor import Cursor
 
-test_folder = 'IndexRepository_Tests_Folder'
+test_folder = 'Tests/IndexRepository_Tests_Folder'
 
 
 def assert_files(actual: str, expected: str):

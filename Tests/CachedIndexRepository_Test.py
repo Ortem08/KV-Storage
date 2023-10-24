@@ -5,7 +5,7 @@ from Index.CachedIndexRepository import CachedIndexRepository
 from Index.IndexRepository import IndexRepository
 from Infrastructure.CursorDir.Cursor import Cursor
 
-test_folder = 'CachedIndexRepository_Tests_Folder'
+test_folder = 'Tests/CachedIndexRepository_Tests_Folder'
 
 
 def assert_cursors(actual: Cursor, expected: Cursor):
