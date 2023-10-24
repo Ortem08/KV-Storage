@@ -25,8 +25,9 @@ class KVStorageService:
         except ValueError as ex:
             print(ex)
             return KVStorageResponse(key, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
-        except KeyError:
-            return KVStorageResponse(key, None, f'Unknown key [{key}] for [{storage_name}] storage')
+        except KeyError as ex:
+            return KVStorageResponse(key, None, f'Unknown key [{key}] for [{storage_name}] storage. '
+                                                f'Inner exception: {ex}')
         except TokenExpiredError as ex:
             return KVStorageResponse(key, None, f'Expired, exception: [{str(ex)}]')
         except Exception as ex:
@@ -73,9 +74,29 @@ class KVStorageService:
             values = []
             for key in storage.get_all_keys():
                 if key.startswith(key_prefix):
+                    try:
+                        values.append(f'{key}: {storage.get(key)}')
+                    except KeyError:
+                        pass
+
+            return KVStorageResponse(key_prefix, values, None)
+        except ValueError as ex:
+            return KVStorageResponse(None, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
+        except TokenExpiredError as ex:
+            return KVStorageResponse(None, None, f'Expired, exception: [{str(ex)}]')
+        except Exception as ex:
+            return KVStorageResponse(None, None, f'Unknown error [{str(ex)}]')
+
+    def get_by_key_in_any_register(self, storage_name, key_in_any_register: str):
+        try:
+            key_lower = key_in_any_register.lower()
+            storage = self._storage_provider.get(storage_name)
+            values = []
+            for key in storage.get_all_keys():
+                if key_lower == key.lower():
                     values.append(f'{key}: {storage.get(key)}')
 
-            return KVStorageResponse(key_prefix, '\n'.join(values), None)
+            return KVStorageResponse(key_in_any_register, values, None)
         except ValueError as ex:
             return KVStorageResponse(None, None, f'Unknown storage [{storage_name}], exception: [{str(ex)}]')
         except TokenExpiredError as ex:

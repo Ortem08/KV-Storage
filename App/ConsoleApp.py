@@ -14,7 +14,7 @@ def add(storage_name: str, key: str, value: str):
 
 
 def add_with_ttl(storage_name: str, key: str, value: str, ttl: int):
-    return client.add(storage_name, key, value, ttl)
+    return client.add_with_ttl(storage_name, key, value, ttl)
 
 
 def set(storage_name: str, key: str, value: str):
@@ -31,6 +31,10 @@ def get_by_key_prefix(storage_name: str, key_prefix: str):
 
 def get_all_keys(storage_name: str):
     return client.get_all_keys(storage_name)
+
+
+def get_by_key_in_any_register(storage_name: str, key: str):
+    return client.get_by_key_in_any_register(storage_name, key)
 
 
 def delete(storage_name: str, key: str):

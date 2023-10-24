@@ -91,6 +91,10 @@ class KVStorageController:
                 args.get("storage_name"),
                 args.get("key"), )
             kv_response._token = token.token
+
+            if kv_response._error is not None:
+                kv_response._error += f'\nInMemoryLog: {InMemoryLog.read_new()}'
+
             return kv_response.to_json()
 
         @self._app.get("/get_all_keys")
@@ -103,6 +107,20 @@ class KVStorageController:
 
             kv_response = self._kv_storage_service.get_all_keys(
                 args.get("storage_name"))
+            kv_response._token = token.token
+            return kv_response.to_json()
+
+        @self._app.get("/get_by_key_in_any_register")
+        def get_by_key_in_any_register():
+            args = request.args
+
+            token = Token(args.get("token"))
+            if not TokenValidatorService.validate_token(token):
+                return KVStorageResponse(None, None, str(TokenExpiredError())).to_json()
+
+            kv_response = self._kv_storage_service.get_by_key_in_any_register(
+                args.get("storage_name"),
+                args.get("key"))
             kv_response._token = token.token
             return kv_response.to_json()
 

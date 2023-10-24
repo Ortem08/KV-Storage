@@ -99,6 +99,16 @@ class Client(IClient):
 
         return response.json()
 
+    def get_by_key_in_any_register(self, storage_name: str, key: str):
+        params = {
+            'storage_name': f'{storage_name}',
+            'token': f'{self.TOKEN.token}',
+            'key': key
+        }
+        response = requests.get(f'{Client.URL}/get_by_key_in_any_register', params=params)
+
+        return response.json()
+
     def delete(self, storage_name: str, key: str) -> str:
         params = {
             'storage_name': f'{storage_name}',

@@ -50,7 +50,7 @@ class IndexTreeNode:
 
     def __change__(self, f: TextIO):
         f.seek(self.cursor.index)
-        f.write(self.index.to_json())
+        f.write(self.index.to_json().ljust(self.cursor.len))
 
 
 class IndexTree:
@@ -218,7 +218,7 @@ class IndexTree:
     def __get_root_node__(f: TextIO) -> IndexTreeNode:
         root_index_str = f.readline()
         root_index = Index.from_json(root_index_str)
-        return IndexTreeNode(root_index, Cursor(0, len(root_index_str) + 1))
+        return IndexTreeNode(root_index, Cursor(0, len(root_index_str) - 1))
 
     def __add_new_node__(self, ind_to_add: Index) -> IndexTreeNode:
         ind_json = ind_to_add.to_json().ljust(self._max_index_size_in_bytes)

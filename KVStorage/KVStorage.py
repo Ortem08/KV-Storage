@@ -61,7 +61,7 @@ class KVStorage(IKVStorage):
             cursor = self._index_repository.get(key)
 
         if cursor is None:
-            return f'Key not found [{key}]'
+            raise KeyError(f'Key not found [{key}]')
 
         return self._value_repository.get(cursor).decode('UTF-8')
 
