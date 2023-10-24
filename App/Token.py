@@ -10,7 +10,6 @@ class Token:
 
     def __init__(self, current_token):
         self.token = current_token
-        # self.expiration_date = expiration_date
 
     @staticmethod
     def create_token(login: str, password: str) -> 'Token':
@@ -29,12 +28,6 @@ class Token:
     def to_json(self) -> str:
         return json.dumps(
             {"token": self.token})
-
-    # @staticmethod
-    # def from_json(json_str: str) -> 'Token':
-    #     values = json.loads(json_str)
-    #
-    #     return Token(values['token'])
 
     def get_token_expiration_date(self) -> datetime:
         decoded_token = jwt.decode(self.token, Token.SECRET_KEY, algorithms='HS256')

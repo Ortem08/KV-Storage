@@ -13,12 +13,28 @@ def add(storage_name: str, key: str, value: str):
     return client.add(storage_name, key, value)
 
 
+def add_with_ttl(storage_name: str, key: str, value: str, ttl: int):
+    return client.add(storage_name, key, value, ttl)
+
+
 def set(storage_name: str, key: str, value: str):
     return client.set(storage_name, key, value)
 
 
 def get(storage_name: str, key: str):
     return client.get(storage_name, key)
+
+
+def get_by_key_prefix(storage_name: str, key_prefix: str):
+    return client.get_by_key_prefix(storage_name, key_prefix)
+
+
+def get_all_keys(storage_name: str):
+    return client.get_all_keys(storage_name)
+
+
+def delete(storage_name: str, key: str):
+    return client.delete(storage_name, key)
 
 
 def login(login: str, password: str):

@@ -47,7 +47,7 @@ class KVStorageController:
             return kv_response.to_json()
 
         @self._app.post("/add_with_ttl")
-        def add():
+        def add_with_ttl():
             args = request.args
 
             token = Token(args.get("token"))
@@ -94,7 +94,7 @@ class KVStorageController:
             return kv_response.to_json()
 
         @self._app.get("/get_all_keys")
-        def get():
+        def get_all_keys():
             args = request.args
 
             token = Token(args.get("token"))
@@ -107,7 +107,7 @@ class KVStorageController:
             return kv_response.to_json()
 
         @self._app.get("/get_by_key_prefix")
-        def get():
+        def get_by_key_prefix():
             args = request.args
 
             token = Token(args.get("token"))
@@ -120,8 +120,8 @@ class KVStorageController:
             kv_response._token = token.token
             return kv_response.to_json()
 
-        @self._app.post("/remove")
-        def remove():
+        @self._app.post("/delete")
+        def delete():
             args = request.args
 
             token = Token(args.get("token"))

@@ -17,7 +17,7 @@ class KVStorageProvider(IKVStorageProvider):
         self._storages = {}
         with open(os.path.join(self._storages_path, self._storages_list_name), 'r') as f:
             for storage_info in f.readlines():
-                particles = storage_info.replace('\n', '').split(' ')
+                particles = [p for p in storage_info.replace('\n', '').split(' ') if p.strip()]
                 storage_name = particles[0]
                 print(particles)
 

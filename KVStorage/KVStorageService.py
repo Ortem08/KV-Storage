@@ -72,7 +72,7 @@ class KVStorageService:
             storage = self._storage_provider.get(storage_name)
             values = []
             for key in storage.get_all_keys():
-                if key.startwith(key_prefix):
+                if key.startswith(key_prefix):
                     values.append(f'{key}: {storage.get(key)}')
 
             return KVStorageResponse(key_prefix, '\n'.join(values), None)
@@ -93,4 +93,5 @@ class KVStorageService:
         except TokenExpiredError as ex:
             return KVStorageResponse(key, None, f'Expired, exception: [{str(ex)}]')
         except Exception as ex:
+            print(ex)
             return KVStorageResponse(key, None, f'Unknown error [{str(ex)}]')
