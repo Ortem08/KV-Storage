@@ -16,9 +16,8 @@ class Client(IClient):
         except FileNotFoundError:
             self.login(input('Логин: '), input('Пароль: '))
 
-    def new(self, path: str, storage_name: str, storage_type: str, mem_limit: int = 0) -> None:
+    def new(self, storage_name: str, storage_type: str, mem_limit: int = 0) -> None:
         params = {
-            'path': f'{path}',
             'storage_name': f'{storage_name}',
             'token': f'{self.TOKEN.token}',
             'storage_type': f'{storage_type}',
@@ -66,16 +65,8 @@ class Client(IClient):
             'key': f'{key}',
             'token': f'{self.TOKEN.token}'
         }
-        #
-        # params_get_pref = {
-        #     'storage_name': f'{storage_name}',
-        #     'key_prefix': f'{key}',
-        #     'token': f'{self.TOKEN.token}'
-        # }
 
         response = requests.get(f'{Client.URL}/get', params=params_get)
-        # if response.json()['value'].__contains__("Key not found"):
-        #     response = requests.get(f'{Client.URL}/get', params=params_get_pref)
 
         return response.json()
 

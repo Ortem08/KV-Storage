@@ -5,8 +5,8 @@ from Client import Client
 client = Client()
 
 
-def new(path: str, storage_name: str, storage_type: str = 'Std', mem_limit: int = 0):
-    return client.new(path, storage_name, storage_type, mem_limit)
+def new(storage_name: str, storage_type: str = 'Std', mem_limit: int = 0):
+    return client.new(storage_name, storage_type, mem_limit)
 
 
 def add(storage_name: str, key: str, value: str):
